@@ -90,7 +90,7 @@
     <dependency>
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-webmvc</artifactId>
-    	<version>5.1.9.RELEASE</version>
+    	<version>5.1.14.RELEASE</version>
     </dependency>
     <!-- json    Fastjson是一个Java语言编写的高性能功能完善的JSON库。
     	它采用一种“假定有序快速匹配”的算法，把JSON Parse的性能提升到极致，
