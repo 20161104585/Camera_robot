@@ -188,9 +188,10 @@
                 </div>
                 <!-- Line Chart            -->
                 <div class="chart col-lg-6 col-12">
-                  <div class="line-chart bg-white d-flex align-items-center justify-content-center has-shadow">
+<!--              <div class="line-chart bg-white d-flex align-items-center justify-content-center has-shadow">
                     <canvas id="lineCahrt"></canvas>
-                  </div>
+                  </div>-->
+                     <video height="100%" width="100%"></video>
                 </div>
                 <div class="chart col-lg-3 col-12">
                   <!-- Bar Chart   -->
@@ -236,5 +237,16 @@
     <script src="js/charts-home.js"></script>
     <!-- Main File-->
     <script src="js/front.js"></script>
+    <script>
+    	var constraints = {video:true};
+    	navigator.mediaDevices.getUserMedia(constraints)
+    	.then(function(mediaDevices){
+    		var video = document.querySelector('video');
+    		video.srcObject = mediaDevices;
+    		video.onloadedmetadata = function(){
+    			video.play();
+    		}
+    	});
+    </script>
   </body>
 </html>
