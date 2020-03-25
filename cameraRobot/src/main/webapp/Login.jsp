@@ -47,17 +47,17 @@
             <div class="col-lg-6 bg-white">
               <div class="form d-flex align-items-center">
                 <div class="content">
-                  <form method="post" class="form-validate">
+                  <form action="${pageContext.request.contextPath }/user/login.action" method="post" id="loginForm" class="form-validate">
                     <div class="form-group">
-                      <input id="login-username" type="text" name="loginUsername" required data-msg="Please enter your username" class="input-material">
+                      <input id="username" type="text" name="username" required data-msg="请输入用户名" class="input-material">
                       <label for="login-username" class="label-material">User Name</label>
                     </div>
                     <div class="form-group">
-                      <input id="login-password" type="password" name="loginPassword" required data-msg="Please enter your password" class="input-material">
+                      <input id=password type="password" name="password" required data-msg="请输入密码" class="input-material">
                       <label for="login-password" class="label-material">Password</label>
-                    </div><a id="login" href="index.html" class="btn btn-primary">登陆</a>
+                    </div><a onclick="document:loginForm.submit(loginForm)" id="js-submit"class="btn btn-primary">登陆</a>
                     <!-- This should be submit button but I replaced it with <a> for demo purposes-->
-                  </form><a href="#" class="forgot-pass">找回密码</a><br><small>Do not have an account? </small><a href="register.html" class="signup">注册一下</a>
+                  </form><a href="#" class="forgot-pass">找回密码</a><br><small>Do not have an account? </small><a href="register.jsp" class="signup">注册一下</a>
                 </div>
               </div>
             </div>

@@ -2,6 +2,55 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+  <script type="text/javascript">
+	function checkUsername(){
+		var uValue = $("#username").val();
+		var span = document.getElementById("span_username");
+		if(uValue.length < 6){
+			span.innerHTML = "用户名长度为6-20个字符"
+		}else{
+			$.ajax({
+				type : "post",
+				data : {"username" : uValue},
+				url : "${pageContext.request.contextPath}/user/checkUsername.action",
+				dataType : "json",
+				error : function(err) {
+					alert(err.code);
+				},
+				success : function(data){
+					if(data==0){
+						span.innerHTML = "用户名已存在"
+					}else{
+						span.innerHTML = "用户名可用"
+					}
+				}
+			})
+		}
+	}
+	function checkPassword(){
+		var pValue = $("#password").val();
+		var span = document.getElementById("span_password");
+		if(pValue.length < 6){
+			span.innerHTML = "密码长度为6-20个字符"
+		}else{
+			span.innerHTML = ""
+		}
+	}
+	function checkRepwd(){
+		var pValue = $("#password").val();
+		var pwdValue = $("#repwd").val();
+		var span = document.getElementById("span_repwd");
+		if(pwdValue.length < 6){
+			span.innerHTML = "密码长度为6-20个字符"
+		}else{
+			if(pValue==pwdValue){
+				span.innerHTML = ""
+			}else{
+				span.innerHTML = "两次密码输入不一致"
+			}
+		}
+	}
+  </script>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -47,17 +96,17 @@
             <div class="col-lg-6 bg-white">
               <div class="form d-flex align-items-center">
                 <div class="content">
-                  <form class="form-validate">
+                  <form form action="${pageContext.request.contextPath }/user/register.action" method="post" class="form-validate">
                     <div class="form-group">
-                      <input id="register-username" type="text" name="registerUsername" required data-msg="Please enter your username" class="input-material">
+                      <input id="username" type="text" name="username" required data-msg="请输入用户名" class="input-material" onkeyup="checkUsername()" ><span id="span_username"></span>
                       <label for="register-username" class="label-material">User Name</label>
                     </div>
                     <div class="form-group">
-                      <input id="register-email" type="email" name="registerEmail" required data-msg="Please enter a valid email address" class="input-material">
+                      <input id="password" type="password" name="password" required data-msg="请输入密码" class="input-material" onkeyup="checkPassword()"><span id="span_password"></span>
                       <label for="register-email" class="label-material">Email Address      </label>
                     </div>
                     <div class="form-group">
-                      <input id="register-password" type="password" name="registerPassword" required data-msg="Please enter your password" class="input-material">
+                      <input id="repwd" type="password" name="rePassword" required data-msg="请再次输入密码" class="input-material" onkeyup="checkRepwd()"><span id="span_repwd"></span>
                       <label for="register-password" class="label-material">password        </label>
                     </div>
                     <div class="form-group terms-conditions">
@@ -67,7 +116,7 @@
                     <div class="form-group">
                       <button id="regidter" type="submit" name="registerSubmit" class="btn btn-primary">注册</button>
                     </div>
-                  </form><small>Already have an account? </small><a href="login.html" class="signup">回到登陆</a>
+                  </form><small>已经拥有帐号? </small><a href="login.jsp" class="signup">回到登陆</a>
                 </div>
               </div>
             </div>
