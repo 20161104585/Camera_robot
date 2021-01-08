@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imnu.mm.mapper.ImageMapper" >
+  <resultMap id="BaseResultMap" type="com.imnu.mm.pojo.Image" >
+    <id column="imgID" property="imgid" jdbcType="INTEGER" />
+    <result column="imgName" property="imgname" jdbcType="VARCHAR" />
+    <result column="imgDatetime" property="imgdatetime" jdbcType="TIMESTAMP" />
+    <result column="userID" property="userid" jdbcType="INTEGER" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.imnu.mm.pojo.Image" extends="BaseResultMap" >
+    <result column="imgAddress" property="imgaddress" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    imgID, imgName, imgDatetime, userID, userName
+  </sql>
+  <sql id="Blob_Column_List" >
+    imgAddress
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.imnu.mm.pojo.ImageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.imnu.mm.pojo.ImageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from image
+    where imgID = #{imgid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from image
+    where imgID = #{imgid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.imnu.mm.pojo.ImageExample" >
+    delete from image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.imnu.mm.pojo.Image" >
+    insert into image (imgID, imgName, imgDatetime, 
+      userID, userName, imgAddress
+      )
+    values (#{imgid,jdbcType=INTEGER}, #{imgname,jdbcType=VARCHAR}, #{imgdatetime,jdbcType=TIMESTAMP}, 
+      #{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{imgaddress,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.imnu.mm.pojo.Image" >
+    insert into image
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="imgid != null" >
+        imgID,
+      </if>
+      <if test="imgname != null" >
+        imgName,
+      </if>
+      <if test="imgdatetime != null" >
+        imgDatetime,
+      </if>
+      <if test="userid != null" >
+        userID,
+      </if>
+      <if test="username != null" >
+        userName,
+      </if>
+      <if test="imgaddress != null" >
+        imgAddress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="imgid != null" >
+        #{imgid,jdbcType=INTEGER},
+      </if>
+      <if test="imgname != null" >
+        #{imgname,jdbcType=VARCHAR},
+      </if>
+      <if test="imgdatetime != null" >
+        #{imgdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="imgaddress != null" >
+        #{imgaddress,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.imnu.mm.pojo.ImageExample" resultType="java.lang.Integer" >
+    select count(*) from image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update image
+    <set >
+      <if test="record.imgid != null" >
+        imgID = #{record.imgid,jdbcType=INTEGER},
+      </if>
+      <if test="record.imgname != null" >
+        imgName = #{record.imgname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imgdatetime != null" >
+        imgDatetime = #{record.imgdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userid != null" >
+        userID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        userName = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imgaddress != null" >
+        imgAddress = #{record.imgaddress,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update image
+    set imgID = #{record.imgid,jdbcType=INTEGER},
+      imgName = #{record.imgname,jdbcType=VARCHAR},
+      imgDatetime = #{record.imgdatetime,jdbcType=TIMESTAMP},
+      userID = #{record.userid,jdbcType=INTEGER},
+      userName = #{record.username,jdbcType=VARCHAR},
+      imgAddress = #{record.imgaddress,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update image
+    set imgID = #{record.imgid,jdbcType=INTEGER},
+      imgName = #{record.imgname,jdbcType=VARCHAR},
+      imgDatetime = #{record.imgdatetime,jdbcType=TIMESTAMP},
+      userID = #{record.userid,jdbcType=INTEGER},
+      userName = #{record.username,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.imnu.mm.pojo.Image" >
+    update image
+    <set >
+      <if test="imgname != null" >
+        imgName = #{imgname,jdbcType=VARCHAR},
+      </if>
+      <if test="imgdatetime != null" >
+        imgDatetime = #{imgdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="imgaddress != null" >
+        imgAddress = #{imgaddress,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where imgID = #{imgid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.imnu.mm.pojo.Image" >
+    update image
+    set imgName = #{imgname,jdbcType=VARCHAR},
+      imgDatetime = #{imgdatetime,jdbcType=TIMESTAMP},
+      userID = #{userid,jdbcType=INTEGER},
+      userName = #{username,jdbcType=VARCHAR},
+      imgAddress = #{imgaddress,jdbcType=LONGVARCHAR}
+    where imgID = #{imgid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imnu.mm.pojo.Image" >
+    update image
+    set imgName = #{imgname,jdbcType=VARCHAR},
+      imgDatetime = #{imgdatetime,jdbcType=TIMESTAMP},
+      userID = #{userid,jdbcType=INTEGER},
+      userName = #{username,jdbcType=VARCHAR}
+    where imgID = #{imgid,jdbcType=INTEGER}
+  </update>
+</mapper>

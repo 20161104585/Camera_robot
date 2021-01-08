@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imnu.mm.mapper.WeatherMapper" >
+  <resultMap id="BaseResultMap" type="com.imnu.mm.pojo.Weather" >
+    <id column="weatherid" property="weatherid" jdbcType="INTEGER" />
+    <result column="temperature" property="temperature" jdbcType="VARCHAR" />
+    <result column="humidity" property="humidity" jdbcType="VARCHAR" />
+    <result column="rainfall" property="rainfall" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    weatherid, temperature, humidity, rainfall
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.imnu.mm.pojo.WeatherExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from weather
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from weather
+    where weatherid = #{weatherid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from weather
+    where weatherid = #{weatherid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.imnu.mm.pojo.WeatherExample" >
+    delete from weather
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.imnu.mm.pojo.Weather" >
+    insert into weather (weatherid, temperature, humidity, 
+      rainfall)
+    values (#{weatherid,jdbcType=INTEGER}, #{temperature,jdbcType=VARCHAR}, #{humidity,jdbcType=VARCHAR}, 
+      #{rainfall,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.imnu.mm.pojo.Weather" >
+    insert into weather
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="weatherid != null" >
+        weatherid,
+      </if>
+      <if test="temperature != null" >
+        temperature,
+      </if>
+      <if test="humidity != null" >
+        humidity,
+      </if>
+      <if test="rainfall != null" >
+        rainfall,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="weatherid != null" >
+        #{weatherid,jdbcType=INTEGER},
+      </if>
+      <if test="temperature != null" >
+        #{temperature,jdbcType=VARCHAR},
+      </if>
+      <if test="humidity != null" >
+        #{humidity,jdbcType=VARCHAR},
+      </if>
+      <if test="rainfall != null" >
+        #{rainfall,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.imnu.mm.pojo.WeatherExample" resultType="java.lang.Integer" >
+    select count(*) from weather
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update weather
+    <set >
+      <if test="record.weatherid != null" >
+        weatherid = #{record.weatherid,jdbcType=INTEGER},
+      </if>
+      <if test="record.temperature != null" >
+        temperature = #{record.temperature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.humidity != null" >
+        humidity = #{record.humidity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rainfall != null" >
+        rainfall = #{record.rainfall,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update weather
+    set weatherid = #{record.weatherid,jdbcType=INTEGER},
+      temperature = #{record.temperature,jdbcType=VARCHAR},
+      humidity = #{record.humidity,jdbcType=VARCHAR},
+      rainfall = #{record.rainfall,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.imnu.mm.pojo.Weather" >
+    update weather
+    <set >
+      <if test="temperature != null" >
+        temperature = #{temperature,jdbcType=VARCHAR},
+      </if>
+      <if test="humidity != null" >
+        humidity = #{humidity,jdbcType=VARCHAR},
+      </if>
+      <if test="rainfall != null" >
+        rainfall = #{rainfall,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where weatherid = #{weatherid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imnu.mm.pojo.Weather" >
+    update weather
+    set temperature = #{temperature,jdbcType=VARCHAR},
+      humidity = #{humidity,jdbcType=VARCHAR},
+      rainfall = #{rainfall,jdbcType=VARCHAR}
+    where weatherid = #{weatherid,jdbcType=INTEGER}
+  </update>
+</mapper>

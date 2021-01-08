@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imnu.mm.mapper.VideoMapper" >
+  <resultMap id="BaseResultMap" type="com.imnu.mm.pojo.Video" >
+    <id column="videoID" property="videoid" jdbcType="INTEGER" />
+    <result column="videoName" property="videoname" jdbcType="VARCHAR" />
+    <result column="videoSize" property="videosize" jdbcType="VARCHAR" />
+    <result column="videoType" property="videotype" jdbcType="VARCHAR" />
+    <result column="videoDatetime" property="videodatetime" jdbcType="TIMESTAMP" />
+    <result column="userID" property="userid" jdbcType="INTEGER" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.imnu.mm.pojo.VideoWithBLOBs" extends="BaseResultMap" >
+    <result column="videoImage" property="videoimage" jdbcType="LONGVARCHAR" />
+    <result column="videoPath" property="videopath" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    videoID, videoName, videoSize, videoType, videoDatetime, userID, userName
+  </sql>
+  <sql id="Blob_Column_List" >
+    videoImage, videoPath
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.imnu.mm.pojo.VideoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.imnu.mm.pojo.VideoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from video
+    where videoID = #{videoid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from video
+    where videoID = #{videoid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.imnu.mm.pojo.VideoExample" >
+    delete from video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.imnu.mm.pojo.VideoWithBLOBs" >
+    insert into video (videoID, videoName, videoSize, 
+      videoType, videoDatetime, userID, 
+      userName, videoImage, videoPath
+      )
+    values (#{videoid,jdbcType=INTEGER}, #{videoname,jdbcType=VARCHAR}, #{videosize,jdbcType=VARCHAR}, 
+      #{videotype,jdbcType=VARCHAR}, #{videodatetime,jdbcType=TIMESTAMP}, #{userid,jdbcType=INTEGER}, 
+      #{username,jdbcType=VARCHAR}, #{videoimage,jdbcType=LONGVARCHAR}, #{videopath,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.imnu.mm.pojo.VideoWithBLOBs" >
+    insert into video
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="videoid != null" >
+        videoID,
+      </if>
+      <if test="videoname != null" >
+        videoName,
+      </if>
+      <if test="videosize != null" >
+        videoSize,
+      </if>
+      <if test="videotype != null" >
+        videoType,
+      </if>
+      <if test="videodatetime != null" >
+        videoDatetime,
+      </if>
+      <if test="userid != null" >
+        userID,
+      </if>
+      <if test="username != null" >
+        userName,
+      </if>
+      <if test="videoimage != null" >
+        videoImage,
+      </if>
+      <if test="videopath != null" >
+        videoPath,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="videoid != null" >
+        #{videoid,jdbcType=INTEGER},
+      </if>
+      <if test="videoname != null" >
+        #{videoname,jdbcType=VARCHAR},
+      </if>
+      <if test="videosize != null" >
+        #{videosize,jdbcType=VARCHAR},
+      </if>
+      <if test="videotype != null" >
+        #{videotype,jdbcType=VARCHAR},
+      </if>
+      <if test="videodatetime != null" >
+        #{videodatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="videoimage != null" >
+        #{videoimage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="videopath != null" >
+        #{videopath,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.imnu.mm.pojo.VideoExample" resultType="java.lang.Integer" >
+    select count(*) from video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update video
+    <set >
+      <if test="record.videoid != null" >
+        videoID = #{record.videoid,jdbcType=INTEGER},
+      </if>
+      <if test="record.videoname != null" >
+        videoName = #{record.videoname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.videosize != null" >
+        videoSize = #{record.videosize,jdbcType=VARCHAR},
+      </if>
+      <if test="record.videotype != null" >
+        videoType = #{record.videotype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.videodatetime != null" >
+        videoDatetime = #{record.videodatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userid != null" >
+        userID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        userName = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.videoimage != null" >
+        videoImage = #{record.videoimage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.videopath != null" >
+        videoPath = #{record.videopath,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update video
+    set videoID = #{record.videoid,jdbcType=INTEGER},
+      videoName = #{record.videoname,jdbcType=VARCHAR},
+      videoSize = #{record.videosize,jdbcType=VARCHAR},
+      videoType = #{record.videotype,jdbcType=VARCHAR},
+      videoDatetime = #{record.videodatetime,jdbcType=TIMESTAMP},
+      userID = #{record.userid,jdbcType=INTEGER},
+      userName = #{record.username,jdbcType=VARCHAR},
+      videoImage = #{record.videoimage,jdbcType=LONGVARCHAR},
+      videoPath = #{record.videopath,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update video
+    set videoID = #{record.videoid,jdbcType=INTEGER},
+      videoName = #{record.videoname,jdbcType=VARCHAR},
+      videoSize = #{record.videosize,jdbcType=VARCHAR},
+      videoType = #{record.videotype,jdbcType=VARCHAR},
+      videoDatetime = #{record.videodatetime,jdbcType=TIMESTAMP},
+      userID = #{record.userid,jdbcType=INTEGER},
+      userName = #{record.username,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.imnu.mm.pojo.VideoWithBLOBs" >
+    update video
+    <set >
+      <if test="videoname != null" >
+        videoName = #{videoname,jdbcType=VARCHAR},
+      </if>
+      <if test="videosize != null" >
+        videoSize = #{videosize,jdbcType=VARCHAR},
+      </if>
+      <if test="videotype != null" >
+        videoType = #{videotype,jdbcType=VARCHAR},
+      </if>
+      <if test="videodatetime != null" >
+        videoDatetime = #{videodatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="videoimage != null" >
+        videoImage = #{videoimage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="videopath != null" >
+        videoPath = #{videopath,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where videoID = #{videoid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.imnu.mm.pojo.VideoWithBLOBs" >
+    update video
+    set videoName = #{videoname,jdbcType=VARCHAR},
+      videoSize = #{videosize,jdbcType=VARCHAR},
+      videoType = #{videotype,jdbcType=VARCHAR},
+      videoDatetime = #{videodatetime,jdbcType=TIMESTAMP},
+      userID = #{userid,jdbcType=INTEGER},
+      userName = #{username,jdbcType=VARCHAR},
+      videoImage = #{videoimage,jdbcType=LONGVARCHAR},
+      videoPath = #{videopath,jdbcType=LONGVARCHAR}
+    where videoID = #{videoid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imnu.mm.pojo.Video" >
+    update video
+    set videoName = #{videoname,jdbcType=VARCHAR},
+      videoSize = #{videosize,jdbcType=VARCHAR},
+      videoType = #{videotype,jdbcType=VARCHAR},
+      videoDatetime = #{videodatetime,jdbcType=TIMESTAMP},
+      userID = #{userid,jdbcType=INTEGER},
+      userName = #{username,jdbcType=VARCHAR}
+    where videoID = #{videoid,jdbcType=INTEGER}
+  </update>
+</mapper>
